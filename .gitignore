@@ -1,0 +1,24 @@
+# Things you're not  #
+# interested in      #
+######################
+doc/
+pkg-*/
+-*/
+
+# TeX junk           #
+######################
+*.aux
+*.bbl
+*.log
+*.out
+*.toc
+
+# OS-generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

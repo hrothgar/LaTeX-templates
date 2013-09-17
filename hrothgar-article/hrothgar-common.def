@@ -1,0 +1,481 @@
+%-------------------------------------------------------------------
+% Page layout
+
+% No orphans
+%\clubpenalty = 500
+%\widowpenalty = 1000
+
+% Add or remove lines from facing pages
+\RequirePackage{addlines}
+
+
+%-------------------------------------------------------------------
+% Colors
+
+\RequirePackage{xcolor}
+
+\definecolor{red}{HTML}{990000}
+\definecolor{blue}{HTML}{1E4F7B}
+\definecolor{brown}{HTML}{7B4A1E}
+\definecolor{gaunt}{HTML}{FBEFCC}
+\definecolor{grey}{HTML}{A4A4A4}
+
+
+%-------------------------------------------------------------------
+% Formatting
+
+\newcommand{\lowercaps}[1]{\textsc{\MakeLowercase{#1}}}
+\newcommand{\uppercaps}[1]{\textsc{\MakeUppercase{#1}}}
+\newenvironment*{scenv}[1]{%
+    {\lowercaps{#1}}%
+}
+
+\newlength{\onelineskip}
+\setlength{\onelineskip}{\baselineskip}
+
+% Creates an fourier ornament. Args: fontsize, lineheight, char
+\RequirePackage{fourier-orns}
+\newcommand*{\fourierOrnament}[3]{{%
+  \fontencoding{U}\fontfamily{futs}\fontsize{#1}{#2}\selectfont\char#3}}
+
+
+%-------------------------------------------------------------------
+% Line breaking
+
+\RequirePackage[final=true,step=1]{microtype}
+\RequirePackage{ragged2e}
+
+
+%-------------------------------------------------------------------
+% Tops and tails
+
+% header & footer
+
+
+%-------------------------------------------------------------------
+% ToC
+
+\newenvironment*{toctitle}[1]{%
+    \addfontfeature{LetterSpace=12}%
+    {\MakeUppercase{#1}}%
+}
+
+\RequirePackage{titletoc}
+
+\titlecontents{section}[0cm]%
+    {}%
+    {\hspace{2.2em}\contentslabel{2.2em}}%
+    {}%
+    {\hspace{0.6em}\textbullet\hspace{0.6em}\makebox[1em][l]{\thecontentspage}}
+\titlecontents{subsection}[0cm]%
+    {}%
+    {\hspace{4.4em}\contentslabel{2.2em}}%
+    {}%
+    {\hspace{0.6em}\textbullet\hspace{0.6em}\makebox[1em][l]{\thecontentspage}}
+
+\newcommand{\tocrule}{\vspace{1.5ex}\noindent\rule{\textwidth}{0.4pt}}
+
+%-------------------------------------------------------------------
+% Captions
+
+\RequirePackage[labelfont={sf,footnotesize},%
+                      font={footnotesize,sf},%
+                      singlelinecheck=false]{caption}
+\captionsetup[figure]{justification=RaggedRight}
+\captionsetup[table]{justification=RaggedRight,%
+                      position=bottom}
+\captionsetup[code]{justification=RaggedRight,%
+                      position=bottom}
+
+% fixme: wait what is this for
+\newcommand{\reducecaption}[1]{%
+  \strictpagecheck %\strictpagechecktrue
+  \checkoddpage
+  \ifoddpage%
+    \captionsetup{margin={0pc,#1pc}}
+  \else \if@twoside%
+    \captionsetup{margin={#1pc,0pc}}
+  \fi \fi%
+}
+
+
+%-------------------------------------------------------------------
+% Hyperlinks
+
+%\RequirePackage[pdftex,plainpages=false,pagebackref]{hyperref}
+\RequirePackage[plainpages=false,xetex]{hyperref}
+
+% break also on hyphens inside the \url command
+\def\UrlBreaks{\do\.\do\@\do\\\do\/\do\!\do\_\do\|\do\;\do\>\do\]%
+  \do\)\do\,\do\?\do\'\do+\do\=\do\#\do-} % \do- is new!
+
+\urlstyle{sf}
+
+\hypersetup{%
+  colorlinks=false,
+  % linkcolor=black,
+  % anchorcolor=black,
+  % citecolor=black,
+  % urlcolor=urlcolor,
+  breaklinks,
+  pdfborder=0 0 0,
+}
+
+%\renewcommand*{\backref}[1]{}
+%\renewcommand*{\backrefalt}[4]{%
+%  \ifcase #1 %
+%    No citations.%
+%  \or
+%    Cited on p.~#2.%
+%  \else
+%    Cited on pp.~#2.%
+%  \fi
+%}
+
+
+%-------------------------------------------------------------------
+% Graphics
+
+\RequirePackage{graphicx}
+\RequirePackage{tikz}
+\RequirePackage{sparklines}
+%\colorlet{sparkspikecolor}{bar}
+%\setlength{\sparkspikewidth}{5pt}
+
+
+%-------------------------------------------------------------------
+% Math
+
+\RequirePackage{amsmath}
+\RequirePackage{amssymb}
+\RequirePackage{amsthm}
+\RequirePackage{IEEEtrantools}
+%\def\eqnarray\IEEEQEDhereeqn % wonder if this works
+
+
+%-------------------------------------------------------------------
+% Lists
+
+% Table of Contents
+\setcounter{secnumdepth}{2}
+
+% Enumeratable list
+\newenvironment{enum}{%
+  \begin{list}{\arabic{enumi}}{%
+    %\setlength{\topsep}{\onelineskip}
+    \setlength{\partopsep}{0pt}
+    \setlength{\parsep}{\parskip}
+    \setlength{\itemsep}{\parskip}
+    \setlength{\leftmargin}{0pt}
+    \setlength{\itemindent}{0pt}
+    \usecounter{enumi}
+  }
+}{\end{list}}
+
+% Itemized list
+\newenvironment{items}{%
+  \begin{list}{\textbullet}{%
+    % \setlength{\topsep}{\onelineskip}
+    \setlength{\partopsep}{0pt}
+    \setlength{\parsep}{\parskip}
+    \setlength{\itemsep}{\parskip}
+    \setlength{\leftmargin}{0pt}
+    \setlength{\itemindent}{0pt}
+  }
+}{\end{list}}
+
+% Definitions in lists
+\newcommand{\iterm}[1]{\item \term{#1}}
+
+% In-paragraph lists
+\usepackage{paralist}
+
+%-------------------------------------------------------------------
+% Tables
+
+\RequirePackage{longtable}
+\RequirePackage{pdflscape}
+\RequirePackage{multirow}
+
+\newcommand{\twoguides}{%
+  \begin{tikzpicture}
+    \draw (-1,1) -- (-1,1);
+    \begin{scope}[color=red]
+      \draw (-1,0.75) -- (-0.25,0.5);
+      \draw (-1,0.2) -- (-0.25,0.5);
+    \end{scope}
+  \end{tikzpicture}}
+
+\newcommand{\threeguides}{%
+  \begin{tikzpicture}
+    \draw (-1,1) -- (-1,1);
+      \draw (-1,0.75) -- (-0.25,0.75);
+      \draw (-1,0.225) -- (-0.25,0.75);
+      \draw (-1,0.175) -- (-0.25,-0.35);
+      \draw (-1,-0.35) -- (-0.25,-0.35);
+    \begin{scope}[color=red]
+      \draw (-1,0.70) -- (-0.25,0.2);
+      \draw (-1,-0.30) -- (-0.25,0.2);
+    \end{scope}
+  \end{tikzpicture}}
+
+\newcommand{\fourguides}{%
+  \begin{tikzpicture}
+    \draw (-1,0.7) -- (-1,0.7);
+    \begin{scope}[color=red]
+      \draw (-1,0.5) -- (-0.25,0);
+      \draw (-1,-0.5) -- (-0.25,-0);
+    \end{scope}
+  \end{tikzpicture}}
+
+
+%-------------------------------------------------------------------
+% Side notes/tables/figures
+
+\RequirePackage{marginnote}
+\RequirePackage{ifoddpage}
+% \setkomafont{caption}{\footnotesize\sffamily}
+
+% The mark on the sidenote
+\newcommand{\sidemark}[1]{#1.{\:}}
+
+\newcommand{\marginelement}[2][0]{%
+  \marginnote{%
+    \strictpagecheck %\strictpagechecktrue
+    \checkoddpage
+    \ifoddpage%
+      \RaggedRight\footnotesize%
+    \else \if@twoside%
+      \RaggedLeft\footnotesize%
+    \fi \fi%
+    \normalfont#2%
+  }[#1\onelineskip]%
+}%
+
+\newcommand{\sidenote}[2][0]{%
+  \footnotemark%
+  \ignorespaces%
+  \marginelement[#1]{%
+    \sidemark{\thefootnote}%
+    \ignorespaces#2%
+  }%
+  \unskip%
+}%
+
+\RequirePackage{mparhack}
+% Sidetable (have to use marginpar since tabular doesn't work with marginnote)
+\newcommand{\sidetable}[3][]{%
+  \marginpar{%
+    \strictpagecheck %\strictpagechecktrue
+    \checkoddpage
+    \ifoddpage%
+      \captionsetup[table]{justification=RaggedRight}
+      \RaggedRight\footnotesize%
+    \else \if@twoside
+      \captionsetup[table]{justification=RaggedLeft}
+      \RaggedLeft\footnotesize%
+    \fi \fi
+    #3
+    \captionof{table}[#1]{#2}
+  }
+}
+
+% Sidefigure
+\newcommand{\sidefigure}[3][]{%
+  \marginelement{%
+    \strictpagecheck %\strictpagechecktrue
+    \checkoddpage
+    \ifoddpage%
+      \captionsetup[figure]{justification=RaggedRight}
+    \else \if@twoside
+      \captionsetup[figure]{justification=RaggedLeft}
+    \fi \fi
+    #3
+    \captionof{figure}[#1]{#2}
+  }
+}
+
+
+%-------------------------------------------------------------------
+% Environments
+
+\renewenvironment{abstract}{%
+  \begin{adjustwidth}{2.2em}{2.2em}\noindent\ignorespaces
+}{\end{adjustwidth}\vspace{.5ex}\rule{\textwidth}{0.4pt}}
+
+\RequirePackage{framed}
+
+% Full width quote environment
+\renewenvironment{quote}{
+  \begin{leftbar}%
+  \noindent\itshape\ignorespaces%
+}{\end{leftbar}}
+
+% Whole environment
+\newenvironment{whole}{%
+  \centering
+  \strictpagecheck %\strictpagechecktrue
+  \begin{adjustwidth*}{}{-\dimexpr\marginparwidth+\marginparsep\relax}
+  \strictpagecheck %\strictpagechecktrue
+  \checkoddpage
+  \ifoddpage%
+    \raggedright
+  \else \if@twoside%
+    \raggedleft
+  \fi \fi%
+}{%
+  \end{adjustwidth*}
+}
+
+% Code environment
+\newcommand{\@codelabel}{undefined}
+\newcommand{\@codeshortcaption}{undefined}
+\newcommand{\@codeverbosecaption}{undefined}
+\newenvironment{scode}[4]{%
+  \renewcommand{\@codelabel}{#2}
+  \renewcommand{\@codeshortcaption}{#3}
+  \renewcommand{\@codeverbosecaption}{#4}
+  \begin{code}[!ht]
+    \lstset{language=#1}
+    \ttfamily
+}{%
+    \caption[\@codeshortcaption]{\@codeverbosecaption}
+    \label{code:\@codelabel}
+  \end{code}
+}
+
+% Centered environment
+\newenvironment{centered}{%
+    \vspace{.9em}
+    \begin{adjustwidth*}{2.2em}{2.2em}%
+        \begin{center}%
+}{%
+    \end{center}\end{adjustwidth*}
+    \vspace{.9em}
+}
+
+%-------------------------------------------------------------------
+% Reference shorthands.
+
+\newcommand\figureref[1]{%
+  Figure~\ref{figure:#1}%
+}
+\newcommand\figurepref[1]{%
+  \figureref{#1}
+  (p.~\pageref{figure:#1})%
+}
+\newcommand\tableref[1]{%
+  Table~\ref{table:#1}%
+}
+\newcommand\tablepref[1]{%
+  \tableref{#1}
+  (p.~\pageref{table:#1})%
+}
+\newcommand\coderef[1]{%
+  Code Listing~\ref{code:#1}%
+}
+\newcommand\codepref[1]{%
+  \coderef{#1}
+  (p.~\pageref{code:#1})%
+}
+\newcommand\chapterref[1]{%
+  Chapter~\ref{chapter:#1}
+  (p.~\pageref{chapter:#1})%
+}
+\newcommand\sectionref[1]{%
+  \textsection~\ref{section:#1}
+  (p.~\pageref{section:#1})%
+}
+\newcommand\appendixref[1]{%
+  Appendix~\ref{appendix:#1}
+  (p.~\pageref{appendix:#1})%
+}
+
+
+%-------------------------------------------------------------------
+% Declerative formatting
+
+% Code snippet
+\newcommand{\code}[1]{%
+  \colorbox{gaunt}{\texttt{{#1}}}%
+}
+
+% Term (first usage)
+\newcommand{\term}[1]{\textit{{#1}}}
+
+% Title of artistic or academic work
+\newcommand{\work}[1]{\textit{{#1}}}
+
+% Latin expressions
+\let\latin\term
+
+% Abbreviations (mostly acronyms, but all full caps abbreviations)
+\let\abbr\lowercaps
+
+% Project name (first usage?)
+\newcommand{\sans}[1]{\textsf{{#1}}}
+
+% Old-style &
+\newcommand{\iamp}{\textit{\&} }
+
+
+%-------------------------------------------------------------------
+% Quotations and citations
+
+\RequirePackage[square,sort,comma,authoryear]{natbib}
+\bibliographystyle{plainnat}
+\RequirePackage{multicol}
+
+% % to put references in two columns, beginning on a new page
+% \renewcommand\bibsection{%
+%   \newgeometry{twocolumn,textwidth=\wholewidth}%
+%   \section{References}%
+% }
+
+% A nice little rule
+\newcommand\lrulefill{\leavevmode\leaders\hrule depth 0pt height 0.4pt\hfill\kern-.5ex}
+\newcommand\qedrule{
+\vspace{-.25ex}\trivlist\item\lrulefill$\blacksquare$\endtrivlist
+\vspace{-2ex}}
+
+% Bibiliography style
+\renewcommand\bibsection{%
+  \qedrule
+  \section*{References}%
+}
+
+% Paragraph/page reference
+\newcommand{\para}[1]{paragraph~#1}
+\newcommand{\paras}[2]{paragraphs~#1--#2}
+\newcommand{\p}[1]{p.~#1}
+\newcommand{\pp}[2]{pp.~#1--#2}
+\newcommand{\chap}[1]{chapter~#1}
+\newcommand{\chaps}[2]{chapters~#1--#2}
+\newcommand{\vol}[1]{vol.~#1}
+
+% Inline quotations
+\newcommand{\prequote}[4][]{\citet[#1]{#2} #3 \q{#4}.}
+\newcommand{\openprequote}[4][]{\citet[#1]{#2} #3 \q{#4}}
+
+\newcommand{\postquote}[3][]{\q{#3} \citep[#1]{#2}.}
+\newcommand{\postquoteyear}[3][]{\q{#3} \citeyearpar[#1]{#2}.}
+\newcommand{\openpostquote}[3][]{\q{#3} \citep[#1]{#2}}
+\newcommand{\openpostquoteyear}[3][]{\q{#3} \citeyearpar[#1]{#2}}
+
+% Full quote environment
+\newenvironment{fullquote}[3][]{%
+  \citet[#1]{#2} #3:
+  \begin{quote}%
+}{%
+  \end{quote}%
+}
+
+% Full quotation environment
+\newenvironment{fullquotation}[3][]{%
+  \citet[#1]{#2} #3:
+  \vspace{\baselineskip}
+  \begin{leftbar}%
+  \itshape
+}{%
+  \end{leftbar}\vspace{\baselineskip}
+}
