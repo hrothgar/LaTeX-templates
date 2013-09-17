@@ -12,6 +12,7 @@ pkg-*/
 *.log
 *.out
 *.toc
+*.blg
 
 # OS-generated files #
 ######################
